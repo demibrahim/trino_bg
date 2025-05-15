@@ -198,6 +198,11 @@
         </dependency>
 
         <dependency>
+            <groupId>net.bigquery</groupId>
+            <artifactId>bigquery-jdbc</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>org.apache.avro</groupId>
             <artifactId>avro</artifactId>
         </dependency>
@@ -249,6 +254,11 @@
         <dependency>
             <groupId>org.apache.iceberg</groupId>
             <artifactId>iceberg-snowflake</artifactId>
+        </dependency>
+
+         <dependency>
+            <groupId>org.apache.iceberg</groupId>
+            <artifactId>iceberg-bigquery</artifactId>
         </dependency>
 
         <dependency>
@@ -764,6 +774,8 @@
                                 <exclude>**/Test*FailureRecoveryTest.java</exclude>
                                 <exclude>**/TestIcebergSnowflakeCatalogConnectorSmokeTest.java</exclude>
                                 <exclude>**/TestTrinoSnowflakeCatalog.java</exclude>
+                                <exclude>**/TestIcebergBigQueryCatalogConnectorSmokeTest.java</exclude>
+                                <exclude>**/TestTrinoBigQueryCatalog.java</exclude>
                             </excludes>
                         </configuration>
                     </plugin>
@@ -829,6 +841,8 @@
                                 <include>**/TestIcebergAbfsConnectorSmokeTest.java</include>
                                 <include>**/TestIcebergSnowflakeCatalogConnectorSmokeTest.java</include>
                                 <include>**/TestTrinoSnowflakeCatalog.java</include>
+                                <include>**/TestIcebergBigQueryCatalogConnectorSmokeTest.java</include>
+                                <include>**/TestTrinoBigQueryCatalog.java</include>
                             </includes>
                         </configuration>
                     </plugin>
