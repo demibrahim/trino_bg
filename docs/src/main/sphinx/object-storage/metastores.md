@@ -716,6 +716,45 @@ The Snowflake catalog does not support [view management](sql-view-management) or
 Further information is available in the [Snowflake catalog
 documentation](https://docs.snowflake.com/en/user-guide/tables-iceberg-catalog).
 
+(iceberg-bigquery-catalog)=
+### BigQuery catalog
+
+In order to use a BigQuery catalog, configure the catalog type with
+`iceberg.catalog.type=bigquery` and provide further details with the following
+properties:
+
+:::{list-table} BigQuery catalog configuration properties
+:widths: 40, 60
+:header-rows: 1
+
+* - Property name
+  - Description
+* - `iceberg.bigquery-catalog.account-uri`
+  - BigQuery JDBC account URI (required). Example:
+    `jdbc:bigquery://example123456789.bigquerycomputing.com`
+* - `iceberg.bigquery-catalog.user`
+  - BigQuery user (required).
+* - `iceberg.bigquery-catalog.password`
+  - BigQuery password (required).
+* - `iceberg.bigquery-catalog.database`
+  - BigQuery database name (required).
+* - `iceberg.bigquery-catalog.role`
+  - BigQuery role name
+:::
+
+```text
+connector.name=iceberg
+iceberg.catalog.type=bigquery
+iceberg.bigquery-catalog.account-uri=jdbc:bigquery://example1234567890.bigquerycomputing.com
+iceberg.bigquery-catalog.user=user
+iceberg.bigquery-catalog.password=secret
+iceberg.bigquery-catalog.database=db
+```
+
+When using the BigQuery catalog, data management tasks such as creating tables,
+must be performed in BigQuery because using the catalog from external systems
+like Trino only supports `SELECT` queries and other [read operations](sql-read-operations).
+
 (partition-projection)=
 ## Access tables with Athena partition projection metadata
 
