@@ -705,6 +705,17 @@ jobs:
           SNOWFLAKE_CATALOG_S3_SECRET_ACCESS_KEY: ${{ secrets.SNOWFLAKE_CATALOG_S3_SECRET_ACCESS_KEY }}
           SNOWFLAKE_EXTERNAL_VOLUME: ${{ vars.SNOWFLAKE_EXTERNAL_VOLUME }}
           SNOWFLAKE_CATALOG_S3_REGION: ${{ vars.SNOWFLAKE_CATALOG_S3_REGION }}
+          BIGQUERY_USER: ${{ vars.BIGQUERY_USER }}
+          BIGQUERY_PASSWORD: ${{ secrets.BIGQUERY_PASSWORD }}
+          BIGQUERY_URL: ${{ vars.BIGQUERY_URL }}
+          BIGQUERY_DATABASE: ${{ vars.BIGQUERY_DATABASE }}
+          BIGQUERY_CATALOG_SCHEMA: ${{ vars.BIGQUERY_CATALOG_SCHEMA }}
+          BIGQUERY_ROLE: ${{ vars.BIGQUERY_ROLE }}
+          BIGQUERY_WAREHOUSE: ${{ vars.BIGQUERY_WAREHOUSE }}
+          BIGQUERY_CATALOG_S3_ACCESS_KEY_ID: ${{ vars.BIGQUERY_CATALOG_S3_ACCESS_KEY_ID }}
+          BIGQUERY_CATALOG_S3_SECRET_ACCESS_KEY: ${{ secrets.BIGQUERY_CATALOG_S3_SECRET_ACCESS_KEY }}
+          BIGQUERY_EXTERNAL_VOLUME: ${{ vars.BIGQUERY_EXTERNAL_VOLUME }}
+          BIGQUERY_CATALOG_S3_REGION: ${{ vars.BIGQUERY_CATALOG_S3_REGION }}
         if: >-
           contains(matrix.modules, 'trino-iceberg') && contains(matrix.profile, 'cloud-tests') &&
           (env.CI_SKIP_SECRETS_PRESENCE_CHECKS != '' || env.AWS_ACCESS_KEY_ID != '' || env.AWS_SECRET_ACCESS_KEY != '' || env.GCP_CREDENTIALS_KEY != '')
@@ -726,6 +737,17 @@ jobs:
             -Dtesting.snowflake.catalog.s3.secret-key="${SNOWFLAKE_CATALOG_S3_SECRET_ACCESS_KEY}" \
             -Dtesting.snowflake.catalog.s3.external.volume="${SNOWFLAKE_EXTERNAL_VOLUME}" \
             -Dtesting.snowflake.catalog.s3.region="${SNOWFLAKE_CATALOG_S3_REGION}"
+            -Dtesting.bigquery.catalog.user="${BIGQUERY_USER}" \
+            -Dtesting.bigquery.catalog.password="${BIGQUERY_PASSWORD}" \
+            -Dtesting.bigquery.catalog.account-url="${BIGQUERY_URL}" \
+            -Dtesting.bigquery.catalog.database="${BIGQUERY_DATABASE}" \
+            -Dtesting.bigquery.catalog.schema="${BIGQUERY_CATALOG_SCHEMA}" \
+            -Dtesting.bigquery.catalog.role="${BIGQUERY_ROLE}" \
+            -Dtesting.bigquery.catalog.warehouse="${BIGQUERY_WAREHOUSE}" \
+            -Dtesting.bigquery.catalog.s3.access-key="${BIGQUERY_CATALOG_S3_ACCESS_KEY_ID}" \
+            -Dtesting.bigquery.catalog.s3.secret-key="${BIGQUERY_CATALOG_S3_SECRET_ACCESS_KEY}" \
+            -Dtesting.bigquery.catalog.s3.external.volume="${BIGQUERY_EXTERNAL_VOLUME}" \
+            -Dtesting.bigquery.catalog.s3.region="${BIGQUERY_CATALOG_S3_REGION}"
       - name: Cloud Redshift Tests ${{ matrix.profile }}
         id: tests-redshift
         env:
@@ -901,6 +923,7 @@ jobs:
             - suite-snowflake
             - suite-hudi
             - suite-ignite
+            - suite-bigquery
           exclude:
             - suite: suite-azure
               ignore exclusion if: >-
@@ -931,6 +954,9 @@ jobs:
             - suite: suite-snowflake
               ignore exclusion if: >-
                 ${{ env.CI_SKIP_SECRETS_PRESENCE_CHECKS != '' || secrets.SNOWFLAKE_PASSWORD != '' }}
+            - suite: suite-bigquery
+              ignore exclusion if: >-
+                ${{ env.CI_SKIP_SECRETS_PRESENCE_CHECKS != '' || secrets.BIGQUERY_PASSWORD != '' }}
 
           ignore exclusion if:
             # Do not use this property outside of the matrix configuration.
